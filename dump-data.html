@@ -19,7 +19,7 @@
     Drop link here
 </div>
 
-<form>
+<form onsubmit="return false;">
     <div class="form-group">
         <label>Paste link here:</label>
         <input type="text" class="form-control" id="pasteInput"/>
@@ -67,11 +67,15 @@
         document.querySelector('#dataOutput').innerHTML = '';
 
         if (data.items != null) {
-            for (let i = 0; i < data.items.length; i += 1) {
-                let item = data.items[i];
-                item.getAsString(function (itemValue) {
-                    item.value = itemValue;
-                    outputItem(item);
+            for (let i = 0; i < data.items.length; i++) {
+                // In Google Chrome, the DataTransferItem is gone after the getAsString() callback
+                // executes, so we need to copy its information beforehand
+                const itemKind = data.items[i].kind;
+                const itemType = data.items[i].type;
+
+                data.items[i].getAsString(function (itemValue) {
+                    console.log(itemValue, itemKind, itemType);
+                    outputItem({kind: itemKind, type: itemType, value: itemValue});
                 });
             }
         }
