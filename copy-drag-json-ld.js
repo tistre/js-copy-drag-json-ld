@@ -3,6 +3,8 @@ function setTransferDataOnDragStart(event) {
     setElementTransferData(event.target, event.dataTransfer);
 }
 
+var copyTransferDataTarget = false;
+
 function copyTransferDataOnClick(event) {
     // Allow Shift+Click (Windows) or Command+Click (Mac) to open the link in a new tab
     if (event.shiftKey || event.metaKey) {
@@ -10,7 +12,10 @@ function copyTransferDataOnClick(event) {
     }
 
     event.preventDefault();
+
+    copyTransferDataTarget = event.target;
     document.execCommand('copy');
+    copyTransferDataTarget = false;
 }
 
 function setElementTransferData(element, dataTransfer) {
@@ -36,8 +41,10 @@ function setElementTransferData(element, dataTransfer) {
 }
 
 document.addEventListener('copy', function (event) {
-    if (event.target.hasAttribute && event.target.hasAttribute('data-transfer_json_ld_ref')) {
+    // While in Firefox event.target is the "Copy link" button, in Google Chrome it's not.
+    // That's why we have to store the copyTransferDataTarget reference manually.
+    if (copyTransferDataTarget && copyTransferDataTarget.hasAttribute && copyTransferDataTarget.hasAttribute('data-transfer_json_ld_ref')) {
         event.preventDefault();
-        setElementTransferData(event.target, event.clipboardData);
+        setElementTransferData(copyTransferDataTarget, event.clipboardData);
     }
 });
