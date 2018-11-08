@@ -1,6 +1,8 @@
 # js-copy-drag-json-ld
 Simple JavaScript code for a **“Copy link” button** which adds custom [JSON-LD](https://json-ld.org) data to the clipboard and drag&drop payload.
 
+Try it out here: Open [example.html](https://www.strehle.de/tim/js-copy-drag-json-ld/example.html) and [dump-data.html](https://www.strehle.de/tim/js-copy-drag-json-ld/dump-data.html).
+
 **Click** this button to copy JSON-LD data to the clipboard. 
 **Drag and drop** it onto another Web page to transfer JSON-LD data.
 
