@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js-copy-drag-json-ld example</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+
+    <style type="text/css">
+
+        .icon-link {
+            padding: 12px 8px 12px 28px;
+            background: url(Link.svg) no-repeat 0 9px;
+            background-size: 25px auto;
+        }
+
+    </style>
+</head>
+<body class="container">
+
+<h1><a href="https://github.com/tistre/js-copy-drag-json-ld">js-copy-drag-json-ld</a> example</h1>
+
+<p>A “Copy link” button which adds custom JSON-LD data to the clipboard and drag&amp;drop payload.</p>
+
+<p><strong>Click</strong> this
+    <a class="btn btn-light" title="Click or drag to copy link" href="http://www.example.com" target="_blank"
+       ondragstart="setTransferDataOnDragStart(event)" draggable="true" onclick="copyTransferDataOnClick(event)"
+       data-transfer_json_ld_ref="data01">
+        <img src="Link.svg" style="height: 20px; width: auto; padding-right: 5px;"/>
+        Copy link
+    </a>
+    button to copy JSON-LD data to the clipboard. <strong>Drag and drop</strong> it onto another Web page to transfer JSON-LD
+    data.
+</p>
+<p>
+    You can also Shift+Click (Windows) or Command+Click (Mac) it to open the link in a new tab.
+</p>
+
+<script type="application/ld+json" id="data01">
+{
+  '@context': 'http://schema.org',
+  '@type': 'Organization',
+  'url': 'http://www.example.com',
+  'name': 'Unlimited Ball & Bearings Corp.',
+  'contactPoint': {
+    '@type': 'ContactPoint',
+    'telephone': '+1-401-555-1212',
+    'contactType': 'Customer service'
+  }
+}
+
+</script>
+
+<script src="copy-drag-json-ld.js"></script>
+
+</body>
+</html>
