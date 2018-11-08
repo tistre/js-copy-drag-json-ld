@@ -34,7 +34,7 @@
     <div class="card" style="margin-bottom: 10px;">
         <div class="card-header">Type</div>
         <div class="card-body">
-            <p class="card-text">Value</p>
+            <pre class="card-text">Value</pre>
         </div>
     </div>
 </template>
@@ -86,7 +86,7 @@
         const clone = document.importNode(template.content, true);
 
         clone.querySelector('div.card-header').textContent = item.type;
-        clone.querySelector('p.card-text').textContent = item.value;
+        clone.querySelector('pre.card-text').textContent = item.value;
 
         dataOutput.appendChild(clone);
     }
