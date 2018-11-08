@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dump drag&amp;drop / copy&amp;paste data</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+</head>
+<body class="container">
+
+<h1>Dump drag&amp;drop / copy&amp;paste data</h1>
+
+<div id="dropTarget" class="alert alert-secondary">
+    Drop link here
+</div>
+
+<form>
+    <div class="form-group">
+        <label>Paste link here:</label>
+        <input type="text" class="form-control" id="pasteInput"/>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-secondary" onclick="resetAll()">Reset</button>
+    </div>
+</form>
+
+<h3>Found data:</h3>
+
+<div id="dataOutput"></div>
+
+<template id="itemOutputTemplate">
+    <div class="card" style="margin-bottom: 10px;">
+        <div class="card-header">Type</div>
+        <div class="card-body">
+            <p class="card-text">Value</p>
+        </div>
+    </div>
+</template>
+
+<script type="text/javascript">
+
+    function onDragOver(event) {
+        // Prevent default to allow drop
+        event.preventDefault();
+    }
+
+    function onDrop(event) {
+        event.preventDefault();
+        outputData(event.dataTransfer);
+    }
+
+    function onPaste(event) {
+        outputData(event.clipboardData);
+    }
+
+    function resetAll() {
+        document.querySelector('#dataOutput').innerHTML = '';
+        document.getElementById('pasteInput').value = '';
+    }
+
+    function outputData(data) {
+        document.querySelector('#dataOutput').innerHTML = '';
+
+        if (data.items != null) {
+            for (let i = 0; i < data.items.length; i += 1) {
+                let item = data.items[i];
+                item.getAsString(function (itemValue) {
+                    item.value = itemValue;
+                    outputItem(item);
+                });
+            }
+        }
+    }
+
+    function outputItem(item) {
+        // Test to see if the browser supports the HTML template element by checking
+        // for the presence of the template element's content attribute.
+        if (!('content' in document.createElement('template'))) {
+            alert('Please use a browser that supports templates.');
+        }
+
+        const template = document.querySelector('#itemOutputTemplate');
+        const dataOutput = document.querySelector('#dataOutput');
+        const clone = document.importNode(template.content, true);
+
+        clone.querySelector('div.card-header').textContent = item.type;
+        clone.querySelector('p.card-text').textContent = item.value;
+
+        dataOutput.appendChild(clone);
+    }
+
+    document.getElementById('dropTarget').addEventListener('dragover', onDragOver, false);
+    document.getElementById('dropTarget').addEventListener('drop', onDrop, false);
+
+    document.getElementById('pasteInput').addEventListener('paste', onPaste, false);
+
+</script>
+
+</body>
+</html>
